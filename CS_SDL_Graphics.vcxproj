@@ -53,6 +53,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)external\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)external\lib;$(LibraryPath)</LibraryPath>
+    <TargetName>ddraw</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -323,7 +323,11 @@ void InitTextObject(const char*) // Font name parameter unused here for now - ha
 	if (SHGetKnownFolderPath(FOLDERID_Fonts, 0, NULL, &fontFolder) == S_OK)
 	{
 		std::filesystem::path fontPath{fontFolder};
+#ifdef JAPANESE
+		fontPath /= "msgothic.ttc";
+#else
 		fontPath /= "cour.ttf"; // TODO look into supporting other fonts (like the parameter to this function)
+#endif
 		std::size_t width, height;
 		int mag = csvanilla::window_magnification;
 #ifdef JAPANESE

@@ -982,7 +982,7 @@ static const unsigned short shiftjis_to_unicode_lookup[0x3100] = {
 	0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020, 0x0020
 };
 
-static unsigned short ShiftJISToUTF32(const unsigned char *string, size_t *bytes_read)
+unsigned short ShiftJISToUTF32(const unsigned char *string, size_t *bytes_read)
 {
 	size_t lookup_index;
 

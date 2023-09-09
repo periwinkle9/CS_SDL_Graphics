@@ -2,6 +2,7 @@
 #include "SDL.h"
 #include "SDL_syswm.h"
 #include "bitmap.h"
+#include "font.h"
 #include "loadimage.h"
 #include <Windows.h>
 
@@ -47,6 +48,38 @@ void RenderBackend::deinit()
 	SDL_Quit();
 }
 
+#ifdef JAPANESE
+unsigned short ShiftJISToUTF32(const unsigned char* string, std::size_t* bytes_read);
+std::string convertWindowNameUTF8()
+{
+	std::string windowNameSJIS{csvanilla::lpWindowName};
+	const unsigned char* currentPos = reinterpret_cast<const unsigned char*>(windowNameSJIS.data());
+	const unsigned char* const endPos = currentPos + windowNameSJIS.size();
+	std::string converted;
+	while (currentPos < endPos)
+	{
+		std::size_t numBytesRead;
+		unsigned short unicodeVal = ShiftJISToUTF32(currentPos, &numBytesRead);
+		currentPos += numBytesRead;
+		// Convert to UTF-8
+		if (unicodeVal < 0x80)
+			converted.push_back(static_cast<char>(unicodeVal));
+		else if (unicodeVal < 0x800)
+		{
+			converted.push_back(static_cast<char>(0xC0 | (unicodeVal >> 6)));
+			converted.push_back(static_cast<char>(0x80 | (unicodeVal & 0x3F)));
+		}
+		else
+		{
+			converted.push_back(static_cast<char>(0xE0 | (unicodeVal >> 12)));
+			converted.push_back(static_cast<char>(0x80 | ((unicodeVal & 0xFFF) >> 6)));
+			converted.push_back(static_cast<char>(0x80 | (unicodeVal & 0x3F)));
+		}
+	}
+	return converted;
+}
+#endif
+
 bool RenderBackend::initWindow(int width, int height, int magnification)
 {
 	ZeroMemory(csvanilla::surface_metadata, sizeof csvanilla::surface_metadata);
@@ -62,7 +95,12 @@ bool RenderBackend::initWindow(int width, int height, int magnification)
 		csvanilla::is_fullscreen = true;
 	}
 
-	window = SDL_CreateWindow(csvanilla::lpWindowName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
+	const char* windowTitle = csvanilla::lpWindowName;
+#ifdef JAPANESE
+	std::string windowTitleConverted = convertWindowNameUTF8();
+	windowTitle = windowTitleConverted.c_str();
+#endif
+	window = SDL_CreateWindow(windowTitle, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	if (window == nullptr)
 	{
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Error: CreateWindow", SDL_GetError(), nullptr);

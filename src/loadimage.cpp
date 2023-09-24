@@ -23,7 +23,7 @@ Bitmap loadBitmapFromFile(const char* name)
 	// Try both .bmp and .pbm
 	bool found = false;
 	std::filesystem::path filePath;
-	for (auto ext : {".bmp", ".pbm"})
+	for (auto ext : {".png", ".bmp", ".pbm"})
 	{
 		std::string fileName = std::string(name) + ext;
 		filePath = dataPath / fileName;

@@ -1,6 +1,7 @@
 #include "bitmap.h"
 
 #define STBI_ONLY_BMP
+#define STBI_ONLY_PNG
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
@@ -32,7 +33,7 @@ bool Bitmap::loadFromMemory(const unsigned char* bytes, unsigned size)
 {
 	int actualChannelCount;
 	bitmapData = stbi_load_from_memory(bytes, size, &width, &height, &actualChannelCount, 4);
-	if (bitmapData != nullptr)
+	if (bitmapData != nullptr && actualChannelCount == 3)
 		setTransparency();
 	return bitmapData != nullptr;
 }
@@ -41,7 +42,7 @@ bool Bitmap::loadFromFile(const char* fileName)
 {
 	int actualChannelCount;
 	bitmapData = stbi_load(fileName, &width, &height, &actualChannelCount, 4);
-	if (bitmapData != nullptr)
+	if (bitmapData != nullptr && actualChannelCount == 3)
 		setTransparency();
 	return bitmapData != nullptr;
 }

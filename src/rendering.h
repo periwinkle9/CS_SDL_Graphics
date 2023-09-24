@@ -34,7 +34,7 @@ class RenderBackend
 
 	friend SDL_Window* Get_SDL_Window();
 	friend SDL_Renderer* Get_SDL_Renderer();
-	friend SDL_Texture* Get_SDL_Texture(int surfaceID);
+	friend void* Get_Surface(int surfaceID);
 public:
 	RenderBackend();
 	~RenderBackend();

@@ -16,16 +16,15 @@ extern "C" {
 		else
 			return nullptr;
 	}
-	SDL_Texture* Get_SDL_Texture(int surfaceID)
+	void* Get_Surface(int surfaceID)
 	{
-		SDL_Texture* ret = nullptr;
 		if (renderer != nullptr)
 		{
 			if (surfaceID == RenderBackend::FramebufferID)
-				ret = renderer->framebuffer.texture;
+				return &renderer->framebuffer;
 			else if (surfaceID >= 0 && surfaceID < RenderBackend::NumSurfaces)
-				ret = renderer->surf[surfaceID].texture;
+				return &renderer->surf[surfaceID];
 		}
-		return ret;
+		return nullptr;
 	}
 }

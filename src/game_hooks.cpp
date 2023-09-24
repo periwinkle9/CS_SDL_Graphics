@@ -350,6 +350,14 @@ void InitTextObject(const char*) // Font name parameter unused here for now - ha
 	CoTaskMemFree(fontFolder);
 }
 
+void PutText(int x, int y, const char* text, unsigned long color)
+{
+	if (renderer == nullptr)
+		return;
+	
+	int mag = csvanilla::window_magnification;
+	renderer->drawText(font, RenderBackend::FramebufferID, x * mag, y * mag, color, text);
+}
 void PutText2(int x, int y, const char* text, unsigned long color, int surf_no)
 {
 	if (renderer == nullptr)
@@ -411,6 +419,7 @@ bool verifyIntegrity()
 		reinterpret_cast<patcher::dword>(csvanilla::CortBox2),
 		reinterpret_cast<patcher::dword>(csvanilla::RestoreSurfaces),
 		reinterpret_cast<patcher::dword>(csvanilla::InitTextObject),
+		reinterpret_cast<patcher::dword>(csvanilla::PutText),
 		reinterpret_cast<patcher::dword>(csvanilla::PutText2),
 		reinterpret_cast<patcher::dword>(csvanilla::EndTextObject),
 	};
@@ -478,6 +487,7 @@ bool applySDLPatches()
 	patcher::replaceFunction(csvanilla::CortBox2, CortBox2);
 	patcher::replaceFunction(csvanilla::RestoreSurfaces, RestoreSurfaces);
 	patcher::replaceFunction(csvanilla::InitTextObject, InitTextObject);
+	patcher::replaceFunction(csvanilla::PutText, PutText);
 	patcher::replaceFunction(csvanilla::PutText2, PutText2);
 	patcher::replaceFunction(csvanilla::EndTextObject, EndTextObject);
 

@@ -96,6 +96,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\api.cpp" />
     <ClCompile Include="src\ddraw_proxy.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
     <ClCompile Include="src\bitmap.cpp" />
@@ -109,6 +110,7 @@
     <None Include="exports_msvc.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\api.h" />
     <ClInclude Include="src\bitmap.h" />
     <ClInclude Include="src\font.h" />
     <ClInclude Include="src\loadimage.h" />

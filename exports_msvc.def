@@ -21,3 +21,6 @@ GetSurfaceFromDC=_Real_GetSurfaceFromDC@12
 RegisterSpecialCase=_Real_RegisterSpecialCase@16 PRIVATE
 ReleaseDDThreadLock=_Real_ReleaseDDThreadLock@0 PRIVATE
 SetAppCompatData=_Real_SetAppCompatData@8 PRIVATE
+Get_SDL_Window
+Get_SDL_Renderer
+Get_SDL_Texture

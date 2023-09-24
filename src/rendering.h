@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include "api.h"
 
 typedef struct tagRECT RECT;
 class Bitmap;
@@ -30,6 +31,10 @@ class RenderBackend
 
 	void prepareToDrawGlyphs(RenderBackend_GlyphAtlas* atlas, int surf_no, unsigned char red, unsigned char green, unsigned char blue);
 	void drawGlyph(long x, long y, std::size_t glyph_x, std::size_t glyph_y, std::size_t glyph_width, std::size_t glyph_height);
+
+	friend SDL_Window* Get_SDL_Window();
+	friend SDL_Renderer* Get_SDL_Renderer();
+	friend SDL_Texture* Get_SDL_Texture(int surfaceID);
 public:
 	RenderBackend();
 	~RenderBackend();
